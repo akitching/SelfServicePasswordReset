@@ -33,6 +33,9 @@ On Error Resume Next
 <!--#include virtual="/passtype.asp"-->
 <!--#include file="menu.asp"-->
 <%
+If (HelpdeskLogging = 1) Then
+    %><!--#include virtual="/addons/helpdesk.asp"--><%
+End If
 Dim oDomain
 Set oDomain = GetObject("WinNT://" & FQDN)
 
@@ -284,6 +287,9 @@ Dim objUser, objFlags, dso, allowedAttributesEffective
 
 		Set rsReset = Nothing
 		Set adoCon = Nothing
+		If (HelpdeskLogging = 1) Then
+			LogInHelpdesk(strusername)
+		End If
 
 		'End Password Reset Code
 End Function

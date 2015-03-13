@@ -118,6 +118,13 @@ QuestionArray(9)="What is the name of your favorite actor or actress?"
 QuestionArray(10)="Who is your personal hero?" 
 QuestionArray(11)="What is your favorite hobby?"
 '-----------------
+' Enable helpdesk autologging (requires addons/helpdesk.asp customized to individual helpdesk application. helpdesk.asp for GLPI included in SSPR by default)
+HelpdeskLogging = 0 ' 0:Disabled, 1:Enabled
+HelpdeskLinkToUser = 1
+HelpdeskCategoryID = 11
+HelpdeskServer = "" ' Server URL. Currently only supports MySQL. MySQL ODBC driver must be installed.
+HelpdeskDB = "glpi" ' Name of database.
+'-----------------
 End If
 ' End of user configuration
 'Do not change the following lines
@@ -126,4 +133,6 @@ End If
 <%
 ImpersonateUser = ReadINI(CredFile, "Main", "ImpersonateUser")
 ImpersonateUserPass = ReadINI(CredFile, "Main", "ImpersonateUserPass")
+HelpdeskDBUser = ReadINI(CredFile, "Helpdesk", "DBUser")
+HelpdeskDBPass = ReadINI(CredFile, "Helpdesk", "DBPass")
 %>
