@@ -10,16 +10,16 @@
 |  ___/ _` / __/ __\ \ /\ / / _ \| '__/ _` | |  _  // _ \/ __|/ _ \ __|
 | |  | (_| \__ \__ \\ V  V / (_) | | | (_| | | | \ \  __/\__ \  __/ |_
 |_|   \__,_|___/___/ \_/\_/ \___/|_|  \__,_| |_|  \_\___||___/\___|\__|
-      ___  ___   __
-     |__ \|__ \ /  |
-__   __ ) |  ) | | |
-\ \ / // /  / /  | |
- \ V // /_ / /_  | |
-  \_/|___(_)___(_)_|
+      ___   ____   ___
+     |__ \ |___ \ / _ \
+__   __ ) |  __) | | | |
+\ \ / // /  |__ <| | | |
+ \ V // /_  ___) | |_| |
+  \_/|____(_)___(_)___/
 
 --------------------------------------------------------------------------------
 
-    Copyright 2006 Ben "Plexer" Norcutt and Alex "Irazmus" Kitching
+    Copyright 2006 - 2015 Ben "Plexer" Norcutt and Alex "Irazmus" Kitching
 
     Self Service Password Reset is free software; you can redistribute it
     and/or modify it under the terms of the GNU General Public License as
@@ -52,10 +52,15 @@ __   __ ) |  ) | | |
 
 ** ToDo **
 --------------------------------------------------------------------------------
-* Add proper search facility to admin/search.asp
 * Migrate from WinNT connector to LDAP connector
 * Change ResetAttempts=0 to mean no limit rather than break SSPR as at present
 
+** Change Log v2.3.0 **
+--------------------------------------------------------------------------------
+* Implement user search
+* Add GLPI auto logging
+
+--------------------------------------------------------------------------------
 ** Change Log v2.2.1 **
 --------------------------------------------------------------------------------
 * Added admin reset counter & last admin reset date to user details in admin console
@@ -113,15 +118,19 @@ Assuming you have a default IIS install with no sites configured:
 
 6) Still in the IIS MMC set Active Server Pages to Allow under Web Service Extensions
 
-7) Open C:\Inetpub\wwwroot\config.asp with notepad and change settings as required. The only required change is to set your FQDN
+7) Copy C:\Inetpub\wwwroot\config.asp.dist to C:\Inetpub\wwwroot\config.asp
 
-8) Open C:\Inetpub\cred.ini with notepad and enter the logon credentials of a user with write access to Active Directory (Suggest a new account called SSPR_MACHINENAME with a long password which doesn't expire). Do not remove the end section header
+8) Open C:\Inetpub\wwwroot\config.asp with notepad and change settings as required. The only required change is to set your FQDN
 
-9) Set users IE Homepage to http://yourserver/register/register.asp
+9) Copy C:\inetpub\cred.ini.dist to C:\Inetpub\cred.ini
 
-10) Create a highly restricted passwordless user account called resetpassword whose user interface is set to "C:\Program Files\Internet Explorer\iexplore.exe -k http://yourserver/reset/index.asp"
+10) Open C:\Inetpub\cred.ini with notepad and enter the logon credentials of a user with write access to Active Directory (Suggest a new account called SSPR_MACHINENAME with a long password which doesn't expire). Do not remove the end section header
 
-11) Provide a link for you users to http://yourserver/update/index.asp so they can update their details
+11) Set users IE Homepage to http://yourserver/register/register.asp
+
+12) Create a highly restricted passwordless user account called resetpassword whose user interface is set to "C:\Program Files\Internet Explorer\iexplore.exe -k http://yourserver/reset/index.asp"
+
+13) Provide a link for you users to http://yourserver/update/index.asp so they can update their details
 
 That's it
 
