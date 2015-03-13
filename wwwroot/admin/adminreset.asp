@@ -244,6 +244,7 @@ Dim objUser, objFlags, dso, allowedAttributesEffective
 
 		Set objUser = Nothing
 
+		On Error Resume Next
 		'Create an ADO connection object
 		Set adoCon = Server.CreateObject("ADODB.Connection")
 		'Set an active connection to the Connection object using a DSN-less connection
@@ -253,8 +254,18 @@ Dim objUser, objFlags, dso, allowedAttributesEffective
 		'Create an ADO recordset object
 		'Set rsRegisterUser = Server.CreateObject("ADODB.Recordset")
 		'Initialise the strSQL variable with an SQL statement to query the database
+		Set rsReset = Server.CreateObject("ADODB.Recordset")
+		strSQL = "SELECT tblmain.* FROM tblmain WHERE username='" & strusername & "';"
+		rsReset.Open strSQL, adoCon
+		If Not rsReset.EOF Then
 		strSQL = "UPDATE tblmain SET counter='0' WHERE username='" & strusername & "';"
+		Else
+			strSQL = "INSERT INTO tblmain (username, counter) VALUES ('" & strusername & "', '0')"
+		End If
+		Set rsReset = Nothing
 		'rsRegisterUser.Open strSQL, adoCon
+'		adoCon.Execute strSQL
+		strSQL = "INSERT INTO resetlog (username, resetdate, resetby) VALUES ('" & strusername & "', '" & Now & "', '" & CurrentUser & "')"
 		adoCon.Execute strSQL
         
         Set rsReset = Server.CreateObject("ADODB.Recordset")        
@@ -263,10 +274,10 @@ Dim objUser, objFlags, dso, allowedAttributesEffective
         rsReset.Open strSQL, adoCon
     	If Not rsReset.EOF Then
             resetCount = rsReset("resetcount") + 1
-            strSQL = "UPDATE userdata SET resetcount='" & resetCount & "', resetdate='" & Now & "' WHERE username='" & strusername & "';"
-    	Else
-            strSQL = "INSERT INTO userdata (username, resetcount, resetdate) VALUES ('" & strusername & "', '1', '" & Now & "')"
-    	End If
+            strSQL = "UPDATE userdata SET resetcount='" & resetCount & "', resetdate='" & Now & "', resetby ='" & CurrentUser & "' WHERE username='" & strusername & "';"
+	Else
+            strSQL = "INSERT INTO userdata (username, resetcount, resetdate, resetby) VALUES ('" & strusername & "', '1', '" & Now & "', '" & CurrentUser & "')"
+	End If
         
         adoCon.Execute strSQL
         

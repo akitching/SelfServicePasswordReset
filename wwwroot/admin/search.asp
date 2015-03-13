@@ -124,10 +124,13 @@ Else
 PageContent(0) = "<form method=""post"" name=""verify"" onsubmit=""return formValidation(this)"" action=""search.asp"">" & vbNewLine
 PageContent(0) = PageContent(0) & "<input type=""hidden"" name=""username"" value=""" & oUser.Name & """ />" & vbNewLine
 PageContent(0) = PageContent(0) & "<table>" & vbNewLine
-PageContent(0) = PageContent(0) & "<tr><td>SAMAccountName</td><td> : </td><td>" & NTDomain & "\" & oUser.Name & "</td></tr>" & vbNewLine
 PageContent(0) = PageContent(0) & "<tr><td>Display Name</td><td> : </td><td>" & oUser.FullName & "</td></tr>" & vbNewLine
+If NOT AuthAdmin Then
+    PageContent(0) = PageContent(0) & "<tr><td>Username</td><td> : </td><td>" & oUser.Name & "</td></tr>" & vbNewLine
+End If
+DN = SearchDistinguishedName(oUser.Name)
 If AuthAdmin Then
-    DN = SearchDistinguishedName(oUser.Name)
+    PageContent(0) = PageContent(0) & "<tr><td>SAMAccountName</td><td> : </td><td>" & NTDomain & "\" & oUser.Name & "</td></tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td colspan=""3"">" & DN & "</td></tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td>Login ~~Script~~</td><td> : </td><td>" & oUser.LoginScript & "</td></tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td>Description</td><td> : </td><td>" & oUser.Description & "</td></tr>" & vbNewLine
@@ -135,6 +138,7 @@ If AuthAdmin Then
     PageContent(0) = PageContent(0) & "<tr><td>Profile Path</td><td> : </td><td>" & oUser.Profile & "</td></tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td>Account Locked</td><td> : </td><td>" & oUser.IsAccountLocked & "</td></tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td>Account Disabled</td><td> : </td><td>" & oUser.AccountDisabled & "</td></tr>" & vbNewLine
+    PageContent(0) = PageContent(0) & "<tr><td>Last Logon Time</td><td> : </td><td>" & FormatDateTime(oUser.lastLogin) & "</td><tr>" & vbNewLine
     PageContent(0) = PageContent(0) & "<tr><td>Password Last Set</td><td> : </td><td>"
     intPasswordAge = oUser.PasswordAge
     If intPasswordAge > 0 Then
@@ -151,6 +155,7 @@ If AuthAdmin Then
     If Not rsReset2.EOF Then
         PageContent(0) = PageContent(0) & "<tr><td>Times Reset by Admin</td><td> : </td><td>" & rsReset2("resetcount") & "</td></tr>" & vbNewLine
         PageContent(0) = PageContent(0) & "<tr><td>Last Admin Reset</td><td> : </td><td>" & rsReset2("resetdate") & "</td></tr>" & vbNewLine
+        PageContent(0) = PageContent(0) & "<tr><td>Last Reset By</td><td> : </td><td>" & rsReset2("resetby") & "</td></tr>" & vbNewLine
     End If
 End If
 
