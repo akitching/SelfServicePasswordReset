@@ -54,22 +54,31 @@ Else
 		PageSubTitle = "Reset Access Granted"
 	End If
 	End If
-		PageContent(0) = "Enter the logon name of the user whose password you wish to reset<br />This service can only find exact usernames"
+		PageContent(0) = "Enter the logon name/number <strong>OR</strong> given and family names of the user whose password you wish to reset."
 		
 		PageContent(1) = "<form method=""post"" id=""search"" onsubmit=""return formValidation(this)"" action=""search.asp"">" & vbNewLine
 		PageContent(1) = PageContent(1) & "<table>" & vbNewLine
 		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td>Username : </td>" & vbNewLine
 		PageContent(1) = PageContent(1) & "<td><input type=""text"" name=""username"" style=""width: 175px;""  /></td>" & vbNewLine
 		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
 		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
-		PageContent(1) = PageContent(1) & "<td>" & vbNewLine
-		PageContent(1) = PageContent(1) & "<select name=""search_type"" style=""width: 175px;"">" & vbNewLine
-		PageContent(1) = PageContent(1) & "<option value=""user"" selected=""selected"">User</option>" & vbNewLine
-		PageContent(1) = PageContent(1) & "</select>" & vbNewLine
-		PageContent(1) = PageContent(1) & "</td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td colspan=""2""><input type=""submit"" value=""Search"" /></td>" & vbNewLine
 		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
 		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
-		PageContent(1) = PageContent(1) & "<td colspan=""3""><input type=""submit"" value=""Search"" /></td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td colspan=""2""><hr /><td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "</form><form method=""post"" id=""searchname"" action=""searchname.asp"">" & vbNewLine
+		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td>Given Name : </td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td><input type=""text"" name=""givenname"" style=""width: 175px;""  /></td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td>Family Name : </td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td><input type=""text"" name=""familyname"" style=""width: 175px;""  /></td>" & vbNewLine
+		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<tr>" & vbNewLine
+		PageContent(1) = PageContent(1) & "<td colspan=""2""><input type=""submit"" value=""Search"" /></td>" & vbNewLine
 		PageContent(1) = PageContent(1) & "</tr>" & vbNewLine
 		PageContent(1) = PageContent(1) & "</table>" & vbNewLine
 		PageContent(1) = PageContent(1) & "</form>" & vbNewLine

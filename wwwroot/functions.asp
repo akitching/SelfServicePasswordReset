@@ -48,5 +48,30 @@ Public Function SearchDistinguishedName(ByVal vSAN)
     Set oRootDSE = Nothing
 End Function
 
+Public Function SearchDistinguishedNameByGivenFamily(ByVal vgiven, vfamily)
+    ' Function:     SearchDistinguishedName
+    ' Description:  Searches the DistinguishedName for a given SamAccountName
+    ' Parameters:   ByVal vSAN - The SamAccountName to search
+    ' Returns:      The DistinguishedName Name
+    Dim oRootDSE, oConnection, oCommand, oRecordSet
+
+    Set oRootDSE = GetObject("LDAP://rootDSE")
+    Set oConnection = CreateObject("ADODB.Connection")
+    oConnection.Open "Provider=ADsDSOObject;"
+    Set oCommand = CreateObject("ADODB.Command")
+    oCommand.ActiveConnection = oConnection
+    oCommand.CommandText = "<LDAP://" & oRootDSE.get("defaultNamingContext") & _
+        ">;(&(objectCategory=User)(givenName=" & vgiven & ")(sn=" & vfamily & "));distinguishedName;subtree"
+    Set oRecordSet = oCommand.Execute
+    On Error Resume Next
+    SearchDistinguishedNameByGivenFamily = oRecordSet.Fields("DistinguishedName")
+    On Error GoTo 0
+    oConnection.Close
+    Set oRecordSet = Nothing
+    Set oCommand = Nothing
+    Set oConnection = Nothing
+    Set oRootDSE = Nothing
+End Function
+
 End If
 %>
