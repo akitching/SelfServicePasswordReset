@@ -210,7 +210,7 @@ Dim objUser, objFlags, dso, allowedAttributesEffective
 			PageContent(0) = "Resetting password for <b>" & strusername & "</b> ...<br />" & vbNewLine
 			On Error Resume Next
 			objUser.GetInfo
-			objUser.SetPassword ("NewPassword")
+			objUser.SetPassword (NewPassword)
 			If (Err.number <> 0) Then
 				If AdminName = "" Then
 					PageContent(0) = PageContent(0) & "An unexpected error occurred in the execution of this page<br />Please report the following information to an "
